@@ -11,7 +11,7 @@ export default function Home() {
   const [prev, setPrev] = useState<Date>(new Date());
   const [activeArr, setActiveArr] = useState<Date[]>([]);
   const [activeFillArr, setActiveFillArr] = useState<string[]>([]);
-  const [activeTerminusArr, setActiveTerminusArr] = useState<string[]>([]);
+  const [activeTerminusArr, setActiveTerminusArr] = useState<string[]>([today.toLocaleDateString('en-US'), today.toLocaleDateString('en-US')]);
   const test = new Date();
   
 
@@ -186,6 +186,7 @@ const clickActive = (activeDate: Date) => {
           <h1>{month}</h1>
           <a className='btn' onClick={clickHandleFuture}>&gt;</a>
         </div>
+        
         {activeTerminusArr[0] === activeTerminusArr[1] ? <h1>{activeTerminusArr[0]}</h1> : <h1>{activeTerminusArr[0]} &#45; {activeTerminusArr[1]}</h1>}
         
       </div>
