@@ -2,26 +2,86 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+.cont{
+    padding: 30px;
+    background-color: rgb(247, 244, 240);
+    border-radius: 16px;
+}
+.btn{
+    margin:10px;
+    padding: 10px 18px;
+    border-radius: 16px;
+    font-size: larger;
+    background-color: ghostwhite;
+    cursor: pointer;
+    box-shadow: 10px 10px lightgrey;
+}
+.startBtn{
+    
+    padding-top: 50px;
+    padding: 10px 18px;
+    border-radius: 16px;
+    font-size: larger;
+    background-color: ghostwhite;
+    cursor: pointer;
+    box-shadow: 10px 10px lightgrey;
+}
+.headerMonth{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
+}
+.headerMonth h1 {
+    font-size: x-large;
+    margin-bottom: 8px;
+    
+}
+.calCont{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    columns: 7;
+}
+.calCont H2{
+    text-align: center;
+}
+.calItem{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+   
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.calItemToday{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: aliceblue;
+    border-radius: 16px;
+    box-shadow: 10px 10px lightgrey;
 }
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+.calItemTodayActive{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: wheat;
+    padding: 20px;
+    border-radius: 30px;
+    box-shadow: 10px 10px lightgrey;
 }
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.activeMonth{
+    color: black;
+}
+.inactiveMonth{
+    color: lightgray;
+}
+.monthControls{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
 }
