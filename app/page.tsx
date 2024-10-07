@@ -4,20 +4,18 @@ import { useState } from 'react';
 
 export default function Home() {
 
-  
-
-  
-  
   const [arr, setArr] = useState<Date[]>([]);
   const [bool, setBool] = useState(false);
   const [today, setToday] = useState<Date>(new Date());
   const [first, setFirst] = useState<Date>(new Date());
   const [prev, setPrev] = useState<Date>(new Date());
-  const [active, setActive] = useState<Date>(new Date());
+  const [activeArr, setActiveArr] = useState<Date[]>([]);
+  const [activeFillArr, setActiveFillArr] = useState<string[]>([]);
+  const [activeTerminusArr, setActiveTerminusArr] = useState<string[]>([]);
   const test = new Date();
   
 
-  
+  //opens calendar
   const clickHandle = () => {
     setArr([]);
     const tempArr: Date[] = [];
@@ -71,7 +69,7 @@ export default function Home() {
     
   };
 
-  //view previous month
+  //view past month
   const clickHandlePast = () => {
     const todayMinusMonthMS = today.setMonth(today.getMonth() - 1);
     const todayMinusMonth = new Date(todayMinusMonthMS);
@@ -90,7 +88,7 @@ export default function Home() {
     
   }
   
-  //view next month
+  //view future month
   const clickHandleFuture = () => {
     const todayMinusMonthMS = today.setMonth(today.getMonth() + 1);
     const todayMinusMonth = new Date(todayMinusMonthMS);
@@ -115,9 +113,67 @@ const month = months[headerDate.getMonth()];
 const year = headerDate.getFullYear();
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+//called by clickActive() below, creates array of dates between picked/ active days
+const createActiveArr = (terminusArr: Date[]) => {
+  const tempTerminusArr: string[] = [];
+  const forHeaderArr: string[] = [];
+  if(terminusArr.length == 1){
+    tempTerminusArr.push(terminusArr[0].toLocaleDateString('en-US'));
+    forHeaderArr.push(terminusArr[0].toLocaleDateString('en-US'))
+    setActiveTerminusArr(forHeaderArr);
+  }else if(terminusArr.length == 2){
+    const firstMS = terminusArr[0].getTime();
+    const secondMS = terminusArr[1].getTime();
+    const terminusSortArr: number[] = [];
+    terminusSortArr.push(firstMS);
+    terminusSortArr.push(secondMS);
+    terminusSortArr.sort((a, b) => a - b);
+    const startDate = new Date(terminusSortArr[0]);
+    const endDate = new Date(terminusSortArr[1]);
+    const startHeadDate = startDate.toLocaleDateString('en-US')
+    const endHeadDate = endDate.toLocaleDateString('en-US')
+    forHeaderArr.push(startHeadDate);
+    forHeaderArr.push(endHeadDate);
+    setActiveTerminusArr(forHeaderArr);
+    let startMS = terminusSortArr[0];
+    const endMS = terminusSortArr[1];
+    const firstDate = new Date(terminusSortArr[0]);
+    const dayMS = 86400000;
+    tempTerminusArr.push(firstDate.toLocaleDateString('en-US'));
 
-const clickActive = (date: Date) => {
-  setActive(date);
+    while(startMS < endMS){
+      startMS += dayMS;
+      const fillDate = new Date(startMS);
+      tempTerminusArr.push(fillDate.toLocaleDateString('en-US'));
+    }
+    
+    
+  }
+  
+  setActiveFillArr(tempTerminusArr);
+};
+
+//pick date or dates
+const clickActive = (activeDate: Date) => {
+  const tempActiveArr: Date[] = [];
+  if(activeArr.length == 0){
+    tempActiveArr.push(activeDate);
+  }
+  else if(activeArr.length == 1){
+    const firstActive: Date = activeArr[0];
+    const secondActive: Date = activeDate;
+    tempActiveArr.push(firstActive);
+    tempActiveArr.push(secondActive);
+  }else{
+    const firstActive: Date = activeArr[1];
+    const secondActive: Date = activeDate;
+    tempActiveArr.push(firstActive);
+    tempActiveArr.push(secondActive);
+  }
+  setActiveArr(tempActiveArr);
+  createActiveArr(tempActiveArr);
+   
+  
 }
 
   return (
@@ -130,7 +186,8 @@ const clickActive = (date: Date) => {
           <h1>{month}</h1>
           <a className='btn' onClick={clickHandleFuture}>&gt;</a>
         </div>
-        <h1>{active.toLocaleDateString('en-US')}</h1>
+        {activeTerminusArr[0] === activeTerminusArr[1] ? <h1>{activeTerminusArr[0]}</h1> : <h1>{activeTerminusArr[0]} &#45; {activeTerminusArr[1]}</h1>}
+        
       </div>
       <div className='calCont'>
         {daysOfWeek.map((day, i) => (<h2 key={i}>{day}</h2>))}
@@ -138,9 +195,12 @@ const clickActive = (date: Date) => {
         ? arr.map((item, index) => (
         <div 
         onClick={() => clickActive(item)}
-          className={item.getDate() === test.getDate() && item.getMonth() === test.getMonth() ? 'calItemToday' : 'calItem' } 
+          //set today date color
+          className={item.getDate() === test.getDate() && item.getMonth() === test.getMonth() ? 'calItemToday' : 'calItemOther' } 
           key={index}>
-            <div className={active === item ? 'calItemTodayActive' : 'calItem'}>
+            {/* set active day or days orange */}
+            <div className={activeFillArr.includes(item.toLocaleDateString('en-US')) ? 'calItemTodayActive' : 'calItem'}>
+              {/* set font color black for active month and gray for prev and future month */}
             <p className={item.getMonth() === today.getMonth() ? 'activeMonth' : 'inactiveMonth'}>
               {item.getDate()}
             </p>

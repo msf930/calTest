@@ -42,6 +42,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
     columns: 7;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
 }
 .calCont H2{
     text-align: center;
@@ -52,9 +53,35 @@
     align-items: center;
     cursor: pointer;
     padding: 20px;
+    border-radius: 30px;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition-duration: 2s;
+    
    
 }
-
+.calItemOther{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    
+   
+}
+.calItem:hover{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    padding: 20px;
+    background-color: wheat;
+    opacity: 0.5;
+    border-radius: 30px;
+    box-shadow: 10px 10px 10px lightgray;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition-duration: 2s;
+   
+}
 .calItemToday{
     display: flex;
     justify-content: center;
@@ -71,12 +98,17 @@
     padding: 20px;
     border-radius: 30px;
     box-shadow: 10px 10px lightgrey;
+    transition: cubic-bezier(0.075, 0.82, 0.165, 1);
+    transition-duration: 2s;
+}
+.calItemTodayActive:active .calItemTodayActive{
+    transform: translateY(-2px);
 }
 .activeMonth{
     color: black;
 }
 .inactiveMonth{
-    color: lightgray;
+    color: rgb(168, 168, 168);
 }
 .monthControls{
     display: flex;
